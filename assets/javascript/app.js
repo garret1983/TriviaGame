@@ -29,20 +29,20 @@ $(document).ready(function () {
             },
         ]
     }
-})
+
 
 var message = "Game Over! Please Play Again!";
 
-$("startGame").on("click", function () {
-    $("wrapper").show();
-    console.log(test);
+$(".startGame").on("click", function () {
+    $(".wrapper").show();
+    console.log("hi");
 
     $(this).hide();
 
 });
 
 var number = 15;
-$("#timeLeft").on("click", run); 
+$("#timeLeft").on("click", run);
 
 function decrement() {
     number--;
@@ -53,5 +53,82 @@ function decrement() {
         checkAnswers();
     }
 
+}
+
+function run() {
+    counter = setInterval(decrement, 1000);
+}
+
+function stop() {
+    clearInterval(counter);
+}
+
+run();
+
+function formTemplate(data) {
+
+    var qString = "<form id='questionOne'>" + data.question + "<br>";
+
+    var possibles = data.possibles;
+
+    for (var i = 0; i < possibles.length; i++) {
+        var possible = possibles[i];
+        console.log(possible);
+        qString = qString + "<input type='radio' name='" + data.id + "' value=" + i + ">" + possible;
+    }
+
+    return qString + "</form";
+}
+
+
+
+function checkAnswers() {
+
+    var resultHTML = '';
+    var guessedAnswers = [];
+    var correct = 0;
+    var incorrect = 0;
+    var unAnswered = 0;
+
+    for (var i = 0; i < game.questions.length; i++) {
+        if (isCorrect(game.questions[i])) {
+            correct++;
+        } else {
+            if (checkedAnswered(game.questions[i])) {
+                incorrect++
+            } else {
+                unanswered++;
+            }
+        }
+    }
+    $('.results').html('correct: ' + correct + "<br>" + 'incorrect: ' + incorrect + "<br>" + 'unanswered: ' + unAnswered);
 
 }
+// havnt finished function, lots of errors. 
+function checkAnswered() {
+    var anyAnswered = false;
+    var answers = $('[name=' + game.questions[0].question+ ']');
+    var answers = $('[name=' + game.questions[1].question+ ']');
+    var answers = $('[name=' + game.questions[2].question+ ']');
+    var answers = $('[name=' + game.questions[3].question+ ']');
+    var answers = $('[name=' + game.questions[4].question+ ']');
+
+    for (var i = 0; i < answers.length; i++) {
+        if (answeres[i].checked) {
+            anyAnswered = true;
+        }
+    }
+    return anyAnswered;
+}
+
+$("#doneButton").on("click", function () {
+    // checkAnswered();
+    stop();
+    $("#messageDiv").html("Game Over!");
+
+});
+})
+
+
+//need to add elemnt.html - jquery 
+
